@@ -25,6 +25,5 @@ class InstituicaoModel
             $erro = $e->getMessage();
             return $erro;
         }
-        
     }
 }

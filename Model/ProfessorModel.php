@@ -16,7 +16,7 @@ class InstituicaoModel
             ";
             $stmt = $this->conn->prepare($query);
             $stmt->bindParam(':nome', $nome);
-            $stmt->bindParam(':senha', $senha);
+            $stmt->bindParam(':senha', $senha); 
             $stmt->bindParam(':id_instituicao', $id_instituicao);
             $stmt->execute();
             return true;

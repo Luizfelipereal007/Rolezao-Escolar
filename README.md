@@ -121,14 +121,6 @@ Rolezao-Escolar/
 ### Admin
 - **Senha**: `admin123`
 
-### Instituição de Exemplo
-- **CNPJ**: `00.000.000/0000-00`
-- **Senha**: `senha123`
-
-### Professor de Exemplo
-- **ID**: `1`
-- **Senha**: `senha123`
-
 ## 🔄 Fluxo de Uso
 
 ### Professor

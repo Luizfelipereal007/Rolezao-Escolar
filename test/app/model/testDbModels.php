@@ -7,15 +7,15 @@ error_reporting(E_ALL);
 echo "<h2>Teste de Models e Conexão</h2>";
 
 try {
-    require_once __DIR__ . '/../app/model/authModel.php';
-    require_once __DIR__ . '/../app/model/rankingModel.php';
-    require_once __DIR__ . '/../app/model/pontoTuristicoModel.php';
-    require_once __DIR__ . '/../app/model/agendamentoModel.php';
+    require_once __DIR__ . '/../../../app/model/authModel.php';
+    require_once __DIR__ . '/../../../app/model/rankingModel.php';
+    require_once __DIR__ . '/../../../app/model/pontoTuristicoModel.php';
+    require_once __DIR__ . '/../../../app/model/agendamentoModel.php';
 
     echo "Requisições de arquivos OK.<br>";
 
     // Testar conexão direta
-    require_once __DIR__ . '/../config/database.php';
+    require_once __DIR__ . '/../../../config/database.php';
     $pdo = Database::getConnection();
     if ($pdo) echo "Conexão com DB OK.<br>";
 

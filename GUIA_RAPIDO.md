@@ -15,9 +15,9 @@
 mysql -u root -p < database/ddl.sql
 ```
 
-### Passo 2️⃣: Testar a Instalação
+### Passo 2️⃣: Testar
 
-Acesse: `http://localhost/Rolezao-Escolar/teste.php`
+Acesse: `http://localhost/Rolezao-Escolar/test/app/model/testDbModels.php`
 
 Você deve ver:
 - ✅ Todos os arquivos

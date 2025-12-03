@@ -2,7 +2,7 @@
 
 $host = 'localhost';
 $port = 3306;
-$dbname = 'rolezao-escolar';
+$dbname = 'rolezao_escolar';
 $user = 'root';
 $password = '';
 

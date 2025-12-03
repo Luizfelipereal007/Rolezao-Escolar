@@ -39,17 +39,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
     }
-    }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro de Instituição - Rolezão Escolar</title>
     <link rel="stylesheet" href="../public/css/style.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="navbar-container">
@@ -123,4 +125,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <p>&copy; 2025 Rolezão Escolar. Todos os direitos reservados.</p>
     </footer>
 </body>
+
 </html>

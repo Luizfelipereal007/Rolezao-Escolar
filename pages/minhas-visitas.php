@@ -10,7 +10,7 @@ if (!isset($_SESSION['tipo_usuario'])) {
 
 try {
     $pdo = getConnection();
-    
+
     if ($_SESSION['tipo_usuario'] === 'professor') {
         // Para professores, mostrar visitas da instituição
         $stmt = $pdo->prepare("
@@ -34,7 +34,7 @@ try {
         ");
         $stmt->execute([$_SESSION['id_usuario']]);
     }
-    
+
     $visitas = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
     $visitas = [];
@@ -42,12 +42,14 @@ try {
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Minhas Visitas - Rolezão Escolar</title>
     <link rel="stylesheet" href="../public/css/style.css">
 </head>
+
 <body>
     <nav class="navbar">
         <div class="navbar-container">
@@ -97,11 +99,11 @@ try {
                         <div class="card-body">
                             <div class="visits-list-cards">
                                 <?php foreach ($visitas as $visita): ?>
-                                    <?php 
-                                        $dataInicio = new DateTime($visita['data_visita']);
-                                        $dataFim = new DateTime($visita['data_saida']);
-                                        $dias = $dataInicio->diff($dataFim)->days + 1;
-                                        $custoTotal = $visita['custo'] * $visita['quantidade_aluno'] * $dias;
+                                    <?php
+                                    $dataInicio = new DateTime($visita['data_visita']);
+                                    $dataFim = new DateTime($visita['data_saida']);
+                                    $dias = $dataInicio->diff($dataFim)->days + 1;
+                                    $custoTotal = $visita['custo'] * $visita['quantidade_aluno'] * $dias;
                                     ?>
                                     <div class="visit-list-item">
                                         <div class="visit-item-header">
@@ -146,7 +148,7 @@ try {
                                 <div class="summary-stat-item">
                                     <p>Investimento Total</p>
                                     <h3>
-                                        R$ <?php 
+                                        R$ <?php
                                             $total = 0;
                                             foreach ($visitas as $v) {
                                                 $d1 = new DateTime($v['data_visita']);
@@ -155,7 +157,7 @@ try {
                                                 $total += $v['custo'] * $v['quantidade_aluno'] * $dias;
                                             }
                                             echo number_format($total, 2, ',', '.');
-                                        ?>
+                                            ?>
                                     </h3>
                                 </div>
                             </div>
@@ -188,25 +190,25 @@ try {
     <script>
         // Armazenar dados das visitas para rápido acesso
         const visitasData = {
-            <?php 
-                foreach ($visitas as $i => $visita) {
-                    $dataInicio = new DateTime($visita['data_visita']);
-                    $dataFim = new DateTime($visita['data_saida']);
-                    $dias = $dataInicio->diff($dataFim)->days + 1;
-                    $custoTotal = $visita['custo'] * $visita['quantidade_aluno'] * $dias;
-                    echo $visita['id_agendamento'] . ': ' . json_encode([
-                        'ponto_nome' => $visita['ponto_nome'],
-                        'local' => $visita['local'],
-                        'descricao' => $visita['descricao'],
-                        'data_visita' => date('d/m/Y', strtotime($visita['data_visita'])),
-                        'data_saida' => date('d/m/Y', strtotime($visita['data_saida'])),
-                        'dias' => $dias,
-                        'quantidade_aluno' => $visita['quantidade_aluno'],
-                        'custo_unitario' => number_format($visita['custo'], 2, ',', '.'),
-                        'custo_total' => number_format($custoTotal, 2, ',', '.')
-                    ]);
-                    if ($i < count($visitas) - 1) echo ',';
-                }
+            <?php
+            foreach ($visitas as $i => $visita) {
+                $dataInicio = new DateTime($visita['data_visita']);
+                $dataFim = new DateTime($visita['data_saida']);
+                $dias = $dataInicio->diff($dataFim)->days + 1;
+                $custoTotal = $visita['custo'] * $visita['quantidade_aluno'] * $dias;
+                echo $visita['id_agendamento'] . ': ' . json_encode([
+                    'ponto_nome' => $visita['ponto_nome'],
+                    'local' => $visita['local'],
+                    'descricao' => $visita['descricao'],
+                    'data_visita' => date('d/m/Y', strtotime($visita['data_visita'])),
+                    'data_saida' => date('d/m/Y', strtotime($visita['data_saida'])),
+                    'dias' => $dias,
+                    'quantidade_aluno' => $visita['quantidade_aluno'],
+                    'custo_unitario' => number_format($visita['custo'], 2, ',', '.'),
+                    'custo_total' => number_format($custoTotal, 2, ',', '.')
+                ]);
+                if ($i < count($visitas) - 1) echo ',';
+            }
             ?>
         };
 
@@ -275,4 +277,5 @@ try {
         }
     </script>
 </body>
+
 </html>

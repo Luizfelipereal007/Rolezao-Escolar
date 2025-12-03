@@ -80,6 +80,7 @@ WHERE id_professor = 1;
 DELETE FROM professor
 WHERE id_professor = 1;
 
+alter table professor ADD senha varchar(255) not null
 
 /PONTO TURISTICO/
 

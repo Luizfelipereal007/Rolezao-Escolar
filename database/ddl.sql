@@ -22,7 +22,8 @@ CREATE TABLE ponto_turistico(
   nome VARCHAR(100),
   local VARCHAR(150),
   descricao TEXT,
-  custo DECIMAL(10,2)
+  custo DECIMAL(10,2),
+  foto VARCHAR(500)
 );
 
 CREATE TABLE agendamento(

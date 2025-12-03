@@ -76,75 +76,96 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </div>
     </nav>
 
-    <div class="page-container" style="max-width: 800px;">
-        <div class="card" style="margin-top: 2rem;">
-            <div class="card-header">
-                <h2>📅 Agendar Nova Visita</h2>
-                <p style="margin: 0; margin-top: 0.5rem; opacity: 0.9;">Instituição: <?php echo htmlspecialchars($_SESSION['instituicao_nome']); ?></p>
+    <div class="page-container">
+        <!-- Cabeçalho -->
+        <div class="schedule-header">
+            <h1>📅 Agendar Nova Visita</h1>
+            <p>Instituição: <?php echo htmlspecialchars($_SESSION['instituicao_nome']); ?></p>
+        </div>
+
+        <?php if ($erro): ?>
+            <div class="alert alert-error">
+                ❌ <?php echo htmlspecialchars($erro); ?>
             </div>
-            <div class="card-body">
-                <?php if ($erro): ?>
-                    <div class="alert alert-error">
-                        ❌ <?php echo htmlspecialchars($erro); ?>
+        <?php endif; ?>
+
+        <?php if ($sucesso): ?>
+            <div class="alert alert-success">
+                ✅ <?php echo htmlspecialchars($sucesso); ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Layout 2 Colunas -->
+        <div class="schedule-container">
+            <!-- COLUNA 1: Formulário -->
+            <div class="schedule-form">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Dados da Visita</h2>
                     </div>
-                <?php endif; ?>
-
-                <?php if ($sucesso): ?>
-                    <div class="alert alert-success">
-                        ✅ <?php echo htmlspecialchars($sucesso); ?>
-                    </div>
-                <?php endif; ?>
-
-                <form method="POST">
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                        <div class="form-group">
-                            <label for="id_ponto_turistico">Ponto Turístico *</label>
-                            <select id="id_ponto_turistico" name="id_ponto_turistico" required>
-                                <option value="">-- Selecione um ponto turístico --</option>
-                                <?php foreach ($pontos as $ponto): ?>
-                                    <option value="<?php echo $ponto['id_ponto_turistico']; ?>">
-                                        <?php echo htmlspecialchars($ponto['nome']); ?> - R$ <?php echo number_format($ponto['custo'], 2, ',', '.'); ?>
-                                    </option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="quantidade_aluno">Número de Alunos *</label>
-                            <input type="number" id="quantidade_aluno" name="quantidade_aluno" min="1" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="data_visita">Data de Início da Visita *</label>
-                            <input type="date" id="data_visita" name="data_visita" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="data_saida">Data de Saída *</label>
-                            <input type="date" id="data_saida" name="data_saida" required>
-                        </div>
-                    </div>
-
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1rem; margin-top: 2rem;">
-                        <button type="submit" class="btn btn-success">✓ Agendar Visita</button>
-                        <a href="minhas-visitas.php" class="btn btn-secondary">← Minhas Visitas</a>
-                    </div>
-                </form>
-
-                <!-- Dica de pontos populares -->
-                <div style="background: var(--light); padding: 1.5rem; border-radius: 8px; margin-top: 2rem;">
-                    <h3 style="margin-top: 0; color: var(--primary);">📍 Pontos Populares</h3>
-                    <div class="places-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-                        <?php foreach (array_slice($pontos, 0, 3) as $ponto): ?>
-                            <div style="background: white; padding: 1rem; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
-                                <?php if (!empty($ponto['foto'])): ?>
-                                    <img src="<?php echo htmlspecialchars($ponto['foto']); ?>" alt="<?php echo htmlspecialchars($ponto['nome']); ?>" style="width: 100%; height: 150px; object-fit: cover; border-radius: 4px; margin-bottom: 0.5rem;">
-                                <?php endif; ?>
-                                <h4 style="margin: 0 0 0.5rem 0;"><?php echo htmlspecialchars($ponto['nome']); ?></h4>
-                                <p style="margin: 0; font-size: 0.9rem; color: #666;">📍 <?php echo htmlspecialchars($ponto['local']); ?></p>
-                                <p style="margin: 0.5rem 0 0 0; font-weight: bold; color: var(--success);">R$ <?php echo number_format($ponto['custo'], 2, ',', '.'); ?></p>
+                    <div class="card-body">
+                        <form method="POST">
+                            <div class="form-group">
+                                <label for="id_ponto_turistico">Ponto Turístico *</label>
+                                <select id="id_ponto_turistico" name="id_ponto_turistico" required>
+                                    <option value="">-- Selecione um ponto turístico --</option>
+                                    <?php foreach ($pontos as $ponto): ?>
+                                        <option value="<?php echo $ponto['id_ponto_turistico']; ?>">
+                                            <?php echo htmlspecialchars($ponto['nome']); ?> - R$ <?php echo number_format($ponto['custo'], 2, ',', '.'); ?>
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>
                             </div>
-                        <?php endforeach; ?>
+
+                            <div class="form-group">
+                                <label for="quantidade_aluno">Número de Alunos *</label>
+                                <input type="number" id="quantidade_aluno" name="quantidade_aluno" min="1" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="data_visita">Data de Início *</label>
+                                <input type="date" id="data_visita" name="data_visita" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="data_saida">Data de Saída *</label>
+                                <input type="date" id="data_saida" name="data_saida" required>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-success">✓ Agendar Visita</button>
+                                <a href="minhas-visitas.php" class="btn btn-secondary">← Minhas Visitas</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- COLUNA 2: Pontos Populares -->
+            <div class="schedule-sidebar">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📍 Pontos Populares</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="popular-points">
+                            <?php foreach ($pontos as $ponto): ?>
+                                <div class="point-card-small">
+                                    <div class="point-img-small">
+                                        <?php if (!empty($ponto['foto'])): ?>
+                                            <img src="<?php echo htmlspecialchars($ponto['foto']); ?>" alt="<?php echo htmlspecialchars($ponto['nome']); ?>">
+                                        <?php else: ?>
+                                            <div class="img-placeholder">🏛️</div>
+                                        <?php endif; ?>
+                                    </div>
+                                    <div class="point-info-small">
+                                        <h4><?php echo htmlspecialchars($ponto['nome']); ?></h4>
+                                        <p class="location-small">📍 <?php echo htmlspecialchars($ponto['local']); ?></p>
+                                        <p class="cost-small">R$ <?php echo number_format($ponto['custo'], 2, ',', '.'); ?>/aluno</p>
+                                    </div>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
                     </div>
                 </div>
             </div>

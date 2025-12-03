@@ -328,9 +328,10 @@ body {
 }
 
 .stat-card h3 {
-    font-size: 2.5rem;
+    font-size: clamp(1.5rem, 5vw, 2.5rem);
     color: var(--primary);
     margin-bottom: 0.5rem;
+    word-break: break-word;
 }
 
 .stat-card p {
@@ -720,3 +721,794 @@ tr:hover {
     background: #fef3c7;
     color: #78350f;
 }
+
+/* ===== ADMIN DASHBOARD LAYOUT ===== */
+.admin-header {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+}
+
+.admin-header p {
+    margin: 0;
+    opacity: 0.9;
+    font-size: 1.05rem;
+}
+
+/* Layout 2 Colunas - Horizontal */
+.admin-dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.form-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.list-section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Lista de Pontos em Formato Compacto */
+.points-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.points-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.points-list::-webkit-scrollbar-track {
+    background: var(--light);
+    border-radius: 10px;
+}
+
+.points-list::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+.points-list::-webkit-scrollbar-thumb:hover {
+    background: var(--secondary);
+}
+
+.point-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--light);
+    transition: all 0.3s;
+}
+
+.point-item:hover {
+    background: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.point-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
+}
+
+.point-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--dark);
+    flex: 1;
+}
+
+.point-header .btn {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.point-item .location {
+    margin: 0.25rem 0;
+    font-size: 0.9rem;
+    color: var(--primary);
+}
+
+.point-item .description {
+    margin: 0.25rem 0 0.75rem 0;
+    font-size: 0.9rem;
+    color: #666;
+    display: block;
+    white-space: normal;
+}
+
+.point-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.point-footer .cost {
+    margin: 0;
+    font-size: 0.95rem;
+    color: var(--success);
+    font-weight: bold;
+}
+
+.point-footer .btn {
+    margin: 0;
+}
+
+/* Responsividade - Tablet */
+@media (max-width: 1024px) {
+    .admin-dashboard {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .points-list {
+        max-height: 400px;
+    }
+}
+
+/* Responsividade - Mobile */
+@media (max-width: 768px) {
+    .admin-header {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .admin-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .admin-dashboard {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .points-list {
+        max-height: 500px;
+    }
+
+    .point-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .point-header h3 {
+        flex: initial;
+    }
+
+    .point-header .btn {
+        width: 100%;
+    }
+
+    .point-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .point-footer .btn {
+        width: 100%;
+    }
+}
+
+/* ===== SCHEDULE/AGENDAR VISITA LAYOUT ===== */
+.schedule-header {
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.schedule-header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+}
+
+.schedule-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Layout 2 Colunas - Formulário + Sidebar */
+.schedule-container {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.schedule-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.schedule-sidebar {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.form-actions .btn {
+    margin: 0;
+}
+
+/* Popular Points Sidebar */
+.popular-points {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.popular-points::-webkit-scrollbar {
+    width: 6px;
+}
+
+.popular-points::-webkit-scrollbar-track {
+    background: var(--light);
+    border-radius: 10px;
+}
+
+.popular-points::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+.point-card-small {
+    display: flex;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--light);
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    transition: all 0.3s;
+    cursor: pointer;
+}
+
+.point-card-small:hover {
+    background: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.point-img-small {
+    width: 80px;
+    height: 80px;
+    flex-shrink: 0;
+    border-radius: 6px;
+    overflow: hidden;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.point-img-small img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+}
+
+.point-info-small {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.point-info-small h4 {
+    margin: 0 0 0.25rem 0;
+    font-size: 1rem;
+    color: var(--dark);
+}
+
+.location-small {
+    margin: 0 0 0.25rem 0;
+    font-size: 0.85rem;
+    color: var(--primary);
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.cost-small {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: bold;
+    color: var(--success);
+}
+
+/* Responsividade Tablet */
+@media (max-width: 1024px) {
+    .schedule-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .popular-points {
+        max-height: 400px;
+    }
+
+    .form-actions {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+    .schedule-header {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .schedule-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .schedule-container {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .popular-points {
+        max-height: 400px;
+    }
+
+    .point-card-small {
+        flex-direction: column;
+        padding: 0.75rem;
+    }
+
+    .point-img-small {
+        width: 100%;
+        height: 150px;
+    }
+}
+
+/* ===== INSTITUTION DASHBOARD LAYOUT ===== */
+.institution-header {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.institution-header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+}
+
+.institution-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Layout 2 Colunas - Visitas + Informações */
+.institution-dashboard {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.visits-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.info-section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Lista de Visitas em Cards */
+.visits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 600px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.visits-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.visits-list::-webkit-scrollbar-track {
+    background: var(--light);
+    border-radius: 10px;
+}
+
+.visits-list::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 10px;
+}
+
+.visit-card {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--light);
+    transition: all 0.3s;
+}
+
+.visit-card:hover {
+    background: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow);
+}
+
+.visit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
+}
+
+.visit-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--dark);
+    flex: 1;
+}
+
+.visit-date {
+    background: var(--primary);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.visit-location {
+    margin: 0.25rem 0 0.75rem 0;
+    font-size: 0.95rem;
+    color: var(--primary);
+}
+
+.visit-details {
+    display: flex;
+    gap: 1rem;
+    margin: 0.75rem 0;
+    font-size: 0.9rem;
+    color: #666;
+    flex-wrap: wrap;
+}
+
+.visit-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.visit-actions .btn {
+    flex: 1;
+    margin: 0;
+}
+
+/* Informações da Instituição */
+.info-item {
+    margin-bottom: 1.5rem;
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item label {
+    font-weight: bold;
+    color: var(--primary);
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.info-item p {
+    margin: 0;
+    color: var(--text);
+    padding: 0.75rem;
+    background: var(--light);
+    border-radius: 6px;
+    font-size: clamp(0.85rem, 2vw, 1rem);
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Responsividade Tablet */
+@media (max-width: 1024px) {
+    .institution-dashboard {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .visits-list {
+        max-height: 400px;
+    }
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+    .institution-header {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .institution-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .institution-dashboard {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .visits-list {
+        max-height: 500px;
+    }
+
+    .visit-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .visit-date {
+        align-self: flex-start;
+    }
+
+    .visit-actions {
+        flex-direction: column;
+    }
+
+    .visit-actions .btn {
+        flex: initial;
+        width: 100%;
+    }
+}
+
+/* ===== MINHAS VISITAS LAYOUT ===== */
+.visits-header {
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+}
+
+.visits-header h1 {
+    margin: 0 0 0.5rem 0;
+    font-size: 2rem;
+}
+
+.visits-header p {
+    margin: 0;
+    opacity: 0.9;
+}
+
+/* Layout 2 Colunas - Lista + Resumo */
+.visits-main-layout {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.visits-list-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.visits-summary-section {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Cards de Visitas na Lista */
+.visits-list-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-height: 700px;
+    overflow-y: auto;
+    padding-right: 0.5rem;
+}
+
+.visits-list-cards::-webkit-scrollbar {
+    width: 6px;
+}
+
+.visits-list-cards::-webkit-scrollbar-track {
+    background: var(--light);
+    border-radius: 10px;
+}
+
+.visits-list-cards::-webkit-scrollbar-thumb {
+    background: var(--success);
+    border-radius: 10px;
+}
+
+.visit-list-item {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1rem;
+    background: var(--light);
+    transition: all 0.3s;
+}
+
+.visit-list-item:hover {
+    background: white;
+    border-color: var(--success);
+    box-shadow: var(--shadow);
+}
+
+.visit-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    gap: 1rem;
+}
+
+.visit-item-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    color: var(--dark);
+    flex: 1;
+}
+
+.visit-cost {
+    background: var(--success);
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+.visit-item-location {
+    margin: 0.25rem 0 0.5rem 0;
+    font-size: 0.95rem;
+    color: var(--primary);
+    word-break: break-word;
+    overflow-wrap: break-word;
+}
+
+.visit-item-dates {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.visit-item-info {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.75rem;
+    font-size: 0.85rem;
+    color: #666;
+    flex-wrap: wrap;
+}
+
+/* Resumo de Estatísticas */
+.summary-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.summary-stat-item {
+    padding: 1.5rem;
+    background: var(--light);
+    border-radius: 8px;
+    border-left: 4px solid var(--success);
+    text-align: center;
+}
+
+.summary-stat-item p {
+    margin: 0 0 0.5rem 0;
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.summary-stat-item h3 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--success);
+}
+
+/* Responsividade Tablet */
+@media (max-width: 1024px) {
+    .visits-main-layout {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .visits-list-cards {
+        max-height: 400px;
+    }
+
+    .summary-stats {
+        flex-direction: row;
+    }
+
+    .summary-stat-item {
+        flex: 1;
+    }
+}
+
+/* Responsividade Mobile */
+@media (max-width: 768px) {
+    .visits-header {
+        padding: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .visits-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .visits-main-layout {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .visits-list-cards {
+        max-height: 500px;
+    }
+
+    .visit-item-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .visit-cost {
+        align-self: flex-start;
+    }
+
+    .visit-item-dates {
+        justify-content: flex-start;
+    }
+
+    .summary-stats {
+        flex-direction: column;
+    }
+}
+

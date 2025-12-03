@@ -114,9 +114,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao'])) {
 
     <div class="page-container">
         <!-- Cabeçalho -->
-        <div style="background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%); color: white; padding: 2rem; border-radius: 12px; margin-top: 2rem; margin-bottom: 2rem;">
-            <h1 style="margin: 0; margin-bottom: 0.5rem;">Painel Administrativo</h1>
-            <p style="margin: 0; opacity: 0.9;">Gerencie os pontos turísticos do sistema</p>
+        <div class="admin-header">
+            <h1>Painel Administrativo</h1>
+            <p>Gerencie os pontos turísticos do sistema</p>
         </div>
 
         <?php if ($erro): ?>
@@ -131,72 +131,75 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['acao'])) {
             </div>
         <?php endif; ?>
 
-        <!-- Formulário para criar novo ponto turístico -->
-        <div class="card" style="margin-bottom: 2rem;">
-            <div class="card-header">
-                <h2>➕ Novo Ponto Turístico</h2>
-            </div>
-            <div class="card-body">
-                <form method="POST">
-                    <input type="hidden" name="acao" value="criar">
-                    
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-                        <div class="form-group">
-                            <label for="nome">Nome do Ponto Turístico *</label>
-                            <input type="text" id="nome" name="nome" placeholder="Ex: Cristo Redentor" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="local">Localização *</label>
-                            <input type="text" id="local" name="local" placeholder="Ex: Rio de Janeiro, RJ" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label for="custo">Custo por Aluno (R$) *</label>
-                            <input type="number" id="custo" name="custo" placeholder="0.00" step="0.01" required>
-                        </div>
+        <!-- Dashboard Layout: 2 Colunas -->
+        <div class="admin-dashboard">
+            <!-- COLUNA 1: Formulário -->
+            <div class="form-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>➕ Novo Ponto Turístico</h2>
                     </div>
-
-                    <div class="form-group">
-                        <label for="descricao">Descrição *</label>
-                        <textarea id="descricao" name="descricao" placeholder="Descreva o ponto turístico..." required></textarea>
-                    </div>
-
-                    <button type="submit" class="btn btn-success">✓ Criar Ponto Turístico</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Lista de Pontos Turísticos -->
-        <div class="card">
-            <div class="card-header">
-                <h2>📍 Pontos Turísticos Cadastrados</h2>
-            </div>
-            <div class="card-body">
-                <?php if (empty($pontos)): ?>
-                    <div class="alert alert-info">
-                        ℹ️ Nenhum ponto turístico cadastrado ainda.
-                    </div>
-                <?php else: ?>
-                    <div class="places-grid">
-                        <?php foreach ($pontos as $ponto): ?>
-                            <div class="card">
-                                <div class="place-image" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); position: relative;">
-                                    <div style="position: absolute; top: 10px; right: 10px;">
-                                        <button class="btn btn-sm btn-warning" onclick="abrirEdicao(<?php echo $ponto['id_ponto_turistico']; ?>, '<?php echo htmlspecialchars($ponto['nome']); ?>', '<?php echo htmlspecialchars($ponto['local']); ?>', '<?php echo htmlspecialchars($ponto['descricao']); ?>', '<?php echo $ponto['custo']; ?>')">✏️</button>
-                                    </div>
-                                </div>
-                                <div class="place-info">
-                                    <h3><?php echo htmlspecialchars($ponto['nome']); ?></h3>
-                                    <p class="location">📍 <?php echo htmlspecialchars($ponto['local']); ?></p>
-                                    <p class="description"><?php echo htmlspecialchars(substr($ponto['descricao'], 0, 100)); ?>...</p>
-                                    <p class="cost">💰 R$ <?php echo number_format($ponto['custo'], 2, ',', '.'); ?> por aluno</p>
-                                    <button class="btn btn-danger btn-sm" style="width: 100%; margin-top: 1rem;" onclick="deletarPonto(<?php echo $ponto['id_ponto_turistico']; ?>)">🗑️ Deletar</button>
-                                </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <input type="hidden" name="acao" value="criar">
+                            
+                            <div class="form-group">
+                                <label for="nome">Nome do Ponto Turístico *</label>
+                                <input type="text" id="nome" name="nome" placeholder="Ex: Cristo Redentor" required>
                             </div>
-                        <?php endforeach; ?>
+
+                            <div class="form-group">
+                                <label for="local">Localização *</label>
+                                <input type="text" id="local" name="local" placeholder="Ex: Rio de Janeiro, RJ" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="custo">Custo por Aluno (R$) *</label>
+                                <input type="number" id="custo" name="custo" placeholder="0.00" step="0.01" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="descricao">Descrição *</label>
+                                <textarea id="descricao" name="descricao" placeholder="Descreva o ponto turístico..." required></textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-success" style="width: 100%;">✓ Criar Ponto Turístico</button>
+                        </form>
                     </div>
-                <?php endif; ?>
+                </div>
+            </div>
+
+            <!-- COLUNA 2: Lista de Pontos -->
+            <div class="list-section">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>📍 Pontos Turísticos Cadastrados</h2>
+                    </div>
+                    <div class="card-body">
+                        <?php if (empty($pontos)): ?>
+                            <div class="alert alert-info">
+                                ℹ️ Nenhum ponto turístico cadastrado ainda.
+                            </div>
+                        <?php else: ?>
+                            <div class="points-list">
+                                <?php foreach ($pontos as $ponto): ?>
+                                    <div class="point-item">
+                                        <div class="point-header">
+                                            <h3><?php echo htmlspecialchars($ponto['nome']); ?></h3>
+                                            <button class="btn btn-sm btn-warning" onclick="abrirEdicao(<?php echo $ponto['id_ponto_turistico']; ?>, '<?php echo htmlspecialchars($ponto['nome']); ?>', '<?php echo htmlspecialchars($ponto['local']); ?>', '<?php echo htmlspecialchars($ponto['descricao']); ?>', '<?php echo $ponto['custo']; ?>')">✏️ Editar</button>
+                                        </div>
+                                        <p class="location">📍 <?php echo htmlspecialchars($ponto['local']); ?></p>
+                                        <p class="description"><?php echo htmlspecialchars(substr($ponto['descricao'], 0, 80)); ?>...</p>
+                                        <div class="point-footer">
+                                            <p class="cost">💰 R$ <?php echo number_format($ponto['custo'], 2, ',', '.'); ?></p>
+                                            <button class="btn btn-danger btn-sm" onclick="deletarPonto(<?php echo $ponto['id_ponto_turistico']; ?>)">🗑️ Deletar</button>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                            </div>
+                        <?php endif; ?>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

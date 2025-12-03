@@ -5,7 +5,8 @@ CREATE TABLE instituicao(
   id_instituicao INT PRIMARY KEY AUTO_INCREMENT,
   nome VARCHAR(100) NOT NULL,
   localizacao VARCHAR(150) NOT NULL,
-  cnpj VARCHAR(20) NOT NULL
+  cnpj VARCHAR(20) NOT NULL,
+  senha VARCHAR(255) NOT NULL
 );
 
 CREATE TABLE professor(

@@ -29,3 +29,6 @@ VALUES ('Cristo Redentor', 'Rio de Janeiro - RJ', 'Monumento icônico do Brasil'
 
 INSERT INTO ponto_turistico (nome, local, descricao, custo, foto)
 VALUES ('Pão de Açúcar', 'Rio de Janeiro - RJ', 'Teleférico com vista panorâmica', 60.00, 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500&h=300&fit=crop');
+
+INSERT INTO administrador (senha)
+VALUES ('$2y$10$.HyNOnHSxKD4EAJ4gjiNf.5HiDRGngQIoPgZXyHF4PobeLQn3RU7u');

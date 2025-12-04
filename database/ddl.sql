@@ -36,3 +36,8 @@ CREATE TABLE agendamento(
   FOREIGN KEY(id_instituicao) REFERENCES instituicao(id_instituicao),
   FOREIGN KEY(id_ponto_turistico) REFERENCES ponto_turistico(id_ponto_turistico)
 )
+
+CREATE TABLE administrador (
+  id_administrador INT PRIMARY KEY AUTO_INCREMENT,
+  senha VARCHAR(255)
+);

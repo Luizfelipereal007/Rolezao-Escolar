@@ -2,16 +2,19 @@
 
 require_once __DIR__ . '/../../config/database.php';
 
-class InstituicaoModel {
+class InstituicaoModel
+{
     private $conn;
     private $tabela = "instituicao";
 
-    public function __construct() {
+    public function __construct()
+    {
         $this->conn = Database::getConnection();
     }
 
     // Função para criar uma nova instituição
-    public function criarInstituicao($nome, $localizacao, $cnpj, $senha) {
+    public function criarInstituicao($nome, $localizacao, $cnpj, $senha)
+    {
         try {
             // Hashificando a senha antes de armazenar
             $senhaHash = password_hash($senha, PASSWORD_DEFAULT);
@@ -31,7 +34,8 @@ class InstituicaoModel {
     }
 
     // Função para listar todas as instituições
-    public function listarInstituicoes() {
+    public function listarInstituicoes()
+    {
         try {
             $query = "SELECT * FROM $this->tabela";
             $stmt = $this->conn->prepare($query);
@@ -43,7 +47,8 @@ class InstituicaoModel {
     }
 
     // Função para editar uma instituição
-    public function editarInstituicao($id, $nome, $localizacao, $cnpj, $senha = null) {
+    public function editarInstituicao($id, $nome, $localizacao, $cnpj, $senha = null)
+    {
         try {
             if ($senha) {
                 // Hashificando a senha se foi passada
@@ -69,7 +74,8 @@ class InstituicaoModel {
     }
 
     // Função para excluir uma instituição
-    public function excluirInstituicao($id) {
+    public function excluirInstituicao($id)
+    {
         try {
             $query = "DELETE FROM $this->tabela WHERE id = :id";
             $stmt = $this->conn->prepare($query);
@@ -82,7 +88,8 @@ class InstituicaoModel {
     }
 
     // Função para validar a senha (caso você precise fazer login)
-    public function validarSenha($id, $senha) {
+    public function validarSenha($id, $senha)
+    {
         try {
             $query = "SELECT senha FROM $this->tabela WHERE id = :id";
             $stmt = $this->conn->prepare($query);
@@ -95,6 +102,34 @@ class InstituicaoModel {
             } else {
                 return false;
             }
+        } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    // Recuperar instituição por id
+    public function getInstituicaoById($id)
+    {
+        try {
+            $query = "SELECT * FROM $this->tabela WHERE id_instituicao = :id";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':id', $id);
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (Exception $e) {
+            return null;
+        }
+    }
+
+    // Verificar existência por CNPJ
+    public function existsByCnpj($cnpj)
+    {
+        try {
+            $query = "SELECT id_instituicao FROM $this->tabela WHERE cnpj = :cnpj";
+            $stmt = $this->conn->prepare($query);
+            $stmt->bindParam(':cnpj', $cnpj);
+            $stmt->execute();
+            return $stmt->rowCount() > 0;
         } catch (Exception $e) {
             return false;
         }

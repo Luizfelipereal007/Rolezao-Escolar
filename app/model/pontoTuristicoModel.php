@@ -8,6 +8,11 @@ class PontoTuristicoModel
 
     private $tabela = "ponto_turistico";
 
+    public function __construct()
+    {
+        $this->conn = Database::getConnection();
+    }
+
     public function criarPontoTuristico($local, $nome, $descricao, $custo)
     {
         try {

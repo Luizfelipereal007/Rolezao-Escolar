@@ -118,8 +118,8 @@ Rolezao-Escolar/
 
 ## 🔐 Credenciais de Teste
 
-### Admin
-- **Senha**: `admin123`
+### Admin e Instituicao
+- **Senha**: `123`
 
 ## 🔄 Fluxo de Uso
 

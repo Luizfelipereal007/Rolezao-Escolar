@@ -2,9 +2,11 @@
 
 require_once __DIR__ . '/../../config/database.php';
 
-class AuthModel {
+class AuthModel
+{
 
-    public function loginProfessor($id_professor, $senha) {
+    public function loginProfessor($id_professor, $senha)
+    {
         try {
             $pdo = Database::getConnection();
             $stmt = $pdo->prepare("SELECT p.id_professor, p.nome, p.senha, p.id_instituicao, i.nome as instituicao_nome FROM professor p JOIN instituicao i ON p.id_instituicao = i.id_instituicao WHERE p.id_professor = ?");
@@ -29,7 +31,8 @@ class AuthModel {
         }
     }
 
-    public function loginInstituicao($cnpj, $senha) {
+    public function loginInstituicao($cnpj, $senha)
+    {
         try {
             $pdo = Database::getConnection();
             $stmt = $pdo->prepare("SELECT id_instituicao, nome, senha FROM instituicao WHERE cnpj = ?");
@@ -52,13 +55,30 @@ class AuthModel {
         }
     }
 
-    public function loginAdmin($senha) {
-        // Senha estática por enquanto — centraliza o check aqui
-        $senha_admin_correta = 'admin123';
-        return $senha === $senha_admin_correta;
+
+    public function loginAdmin($senha)
+    {
+        try {
+            $pdo = Database::getConnection();
+            $stmt = $pdo->prepare("SELECT senha FROM administrador");
+            $stmt->execute();
+
+            if ($stmt->rowCount() === 0) {
+                return false;
+            }
+
+            $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
+            if (password_verify($senha, $resultado['senha'])) {
+                return $senha;
+            }
+            return false;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 
-    public function loginProfessorByName($nome, $senha) {
+    public function loginProfessorByName($nome, $senha)
+    {
         try {
             $pdo = Database::getConnection();
             $stmt = $pdo->prepare("SELECT p.id_professor, p.nome, p.senha, p.id_instituicao, i.nome as instituicao_nome FROM professor p JOIN instituicao i ON p.id_instituicao = i.id_instituicao WHERE p.nome = ?");
@@ -83,5 +103,3 @@ class AuthModel {
         }
     }
 }
-
-?>

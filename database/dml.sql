@@ -1,34 +1,40 @@
--- Instituições (senhas hasheadas com password_hash)
--- senha: senha123
+-- Instituições 
 INSERT INTO instituicao (nome, localizacao, cnpj, senha)
-VALUES ('IFMS Campo Grande', 'Campo Grande - MS', '00.000.000/0001-00', '$2y$10$YourHashedPasswordHere1');
+VALUES ('IFMS Campo Grande', 'Campo Grande - MS', '00.000.000/0001-00', '$2y$10$.HyNOnHSxKD4EAJ4gjiNf.5HiDRGngQIoPgZXyHF4PobeLQn3RU7u');
 
--- senha: senha456
 INSERT INTO instituicao (nome, localizacao, cnpj, senha)
-VALUES ('Escola Municipal', 'São Paulo - SP', '11.111.111/0001-11', '$2y$10$YourHashedPasswordHere2');
+VALUES ('Escola Municipal', 'Campo Grande - MS', '11.111.111/0001-11', '$2y$10$.HyNOnHSxKD4EAJ4gjiNf.5HiDRGngQIoPgZXyHF4PobeLQn3RU7u');
 
--- Professores (senhas hasheadas)
--- Nome: João da Silva, Senha: prof123
+-- Professores
 INSERT INTO professor (id_instituicao, nome, senha)
-VALUES (1, 'João da Silva', '$2y$10$YourHashedPasswordHere3');
+VALUES (1, 'João da Silva', '$2y$10$.HyNOnHSxKD4EAJ4gjiNf.5HiDRGngQIoPgZXyHF4PobeLQn3RU7u');
 
--- Nome: Maria Oliveira, Senha: prof456
 INSERT INTO professor (id_instituicao, nome, senha)
-VALUES (1, 'Maria Oliveira', '$2y$10$YourHashedPasswordHere4');
+VALUES (1, 'Maria Oliveira', '$2y$10$.HyNOnHSxKD4EAJ4gjiNf.5HiDRGngQIoPgZXyHF4PobeLQn3RU7u');
 
--- Nome: Carlos Santos, Senha: prof789
 INSERT INTO professor (id_instituicao, nome, senha)
-VALUES (2, 'Carlos Santos', '$2y$10$YourHashedPasswordHere5');
+VALUES (2, 'Carlos Santos', '$2y$10$.HyNOnHSxKD4EAJ4gjiNf.5HiDRGngQIoPgZXyHF4PobeLQn3RU7u');
 
 -- Pontos Turísticos
 INSERT INTO ponto_turistico (nome, local, descricao, custo, foto)
-VALUES ('Trilha da Serra', 'Bonito - MS', 'Trilha leve com cachoeira', 20.00, 'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=500&h=300&fit=crop');
+VALUES ('Trilha da Serra', 'Bonito - MS', 'Trilha leve com cachoeira', 20.00, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMEwLjrB-qlj8dx4khAIUByorEgVCNTRr2_g&s');
 
 INSERT INTO ponto_turistico (nome, local, descricao, custo, foto)
-VALUES ('Cristo Redentor', 'Rio de Janeiro - RJ', 'Monumento icônico do Brasil', 50.00, 'https://images.unsplash.com/photo-1483729558449-99daa62f1dcd?w=500&h=300&fit=crop');
+VALUES ('Gruta do Lago Azul', 'Bonito - MS', 'Caverna com lago subterrâneo de água azul cristalina, um dos cartões-postais de Bonito.', 80.00, 'https://images.squarespace-cdn.com/content/v1/628cdf23e74da0654141fc99/1d40521c-f8a1-4dd3-82cf-746806579782/lagoa+azul.jpg');
 
 INSERT INTO ponto_turistico (nome, local, descricao, custo, foto)
-VALUES ('Pão de Açúcar', 'Rio de Janeiro - RJ', 'Teleférico com vista panorâmica', 60.00, 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=500&h=300&fit=crop');
+VALUES ('Rio da Prata', 'Jardim - MS', 'Flutuação em águas cristalinas com grande diversidade de peixes.', 150.00, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcToErTMU61PaUAAu8r6tiRpbqapCvAWzEym4Q&s');
 
+INSERT INTO ponto_turistico (nome, local, descricao, custo, foto)
+VALUES ('Buraco das Araras', 'Jardim - MS', 'Enorme dolina natural onde vivem diversas araras vermelhas.', 60.00, 'https://upload.wikimedia.org/wikipedia/commons/8/88/Buraco_das_Araras_Jardim_MS_Brazil.jpg');
+
+INSERT INTO ponto_turistico (nome, local, descricao, custo, foto)
+VALUES ('Boca da Onça', 'Bodoquena - MS', 'Cachoeira mais alta do Mato Grosso do Sul, com 156 metros de queda.', 120.00, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9La1N1mkktGJF3RY8bNTuHBXXaKc0LP1yOg&s');
+
+INSERT INTO ponto_turistico (nome, local, descricao, custo, foto)
+VALUES ('Pantanal Sul', 'Corumbá - MS', 'Região ideal para safáris fotográficos, observação de animais e passeios de barco.', 200.00, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ13Ld3haMbOMTbLrxfe0QsKQd98mYZjwp2og&s');
+
+
+-- Administrador
 INSERT INTO administrador (senha)
 VALUES ('$2y$10$.HyNOnHSxKD4EAJ4gjiNf.5HiDRGngQIoPgZXyHF4PobeLQn3RU7u');

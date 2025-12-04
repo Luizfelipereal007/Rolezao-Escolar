@@ -59,7 +59,7 @@ Edite `config/database.php` com suas credenciais MySQL:
 ```php
 private static $host = 'localhost';
 private static $user = 'root';
-private static $password = 'sua_senha';
+private static $password = '';
 private static $dbname = 'rolezao_escolar';
 ```
 
@@ -165,18 +165,6 @@ Rolezao-Escolar/
 - Total de alunos viajados
 - Estatísticas gerais
 
-## 🚀 Melhorias Futuras
-
-- [ ] Sistema de notificações por email
-- [ ] Relatórios em PDF
-- [ ] Integração com mapa de localização
-- [ ] Chat entre professores e instituição
-- [ ] Sistema de avaliação de pontos turísticos
-- [ ] Integração com pagamento online
-- [ ] App mobile (React Native ou Flutter)
-
-## 🐛 Solução de Problemas
-
 ### Erro de conexão com banco de dados
 - Verifique se o MySQL está rodando
 - Confirme as credenciais em `config/database.php`
@@ -192,20 +180,4 @@ Rolezao-Escolar/
 - Confirme que a URL está correta
 - Reinicie o servidor Apache
 
-## 📝 Licença
-
-Este projeto está sob licença MIT. Veja LICENSE para mais detalhes.
-
-## 👥 Autores
-
-- **Desenvolvedor Principal**: Luiz Felipe Real
 - **Repositório**: https://github.com/Luizfelipereal007/Rolezao-Escolar
-
-## 📧 Suporte
-
-Para dúvidas ou problemas, entre em contato através do GitHub.
-
----
-
-**Versão**: 1.0.0  
-**Data de Atualização**: 3 de Dezembro de 2025

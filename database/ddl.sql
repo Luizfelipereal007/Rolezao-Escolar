@@ -33,6 +33,8 @@ CREATE TABLE agendamento(
   data_visita DATE,
   data_saida DATE,
   quantidade_aluno INT,
+  status ENUM('pendente', 'aprovado', 'rejeitado') DEFAULT 'pendente',
+  motivo_rejeicao TEXT,
   FOREIGN KEY(id_instituicao) REFERENCES instituicao(id_instituicao),
   FOREIGN KEY(id_ponto_turistico) REFERENCES ponto_turistico(id_ponto_turistico)
 );

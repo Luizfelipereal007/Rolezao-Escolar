@@ -111,6 +111,27 @@ try {
                                             <span class="visit-cost">R$ <?php echo number_format($custoTotal, 2, ',', '.'); ?></span>
                                         </div>
                                         <p class="visit-item-location">📍 <?php echo htmlspecialchars($visita['local']); ?></p>
+                                        
+                                        <!-- Status da Visita -->
+                                        <div style="margin-bottom: 0.5rem;">
+                                            <?php if ($visita['status'] === 'aprovado'): ?>
+                                                <span style="background: #d4edda; color: #155724; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">
+                                                    ✅ Aprovado
+                                                </span>
+                                            <?php elseif ($visita['status'] === 'rejeitado'): ?>
+                                                <span style="background: #f8d7da; color: #721c24; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">
+                                                    ❌ Rejeitado
+                                                </span>
+                                                <?php if (!empty($visita['motivo_rejeicao'])): ?>
+                                                    <br><small style="color: #666; font-style: italic;">Motivo: <?php echo htmlspecialchars($visita['motivo_rejeicao']); ?></small>
+                                                <?php endif; ?>
+                                            <?php else: ?>
+                                                <span style="background: #fff3cd; color: #856404; padding: 0.25rem 0.75rem; border-radius: 20px; font-size: 0.85rem; font-weight: bold;">
+                                                    ⏳ Pendente
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+                                        
                                         <div class="visit-item-dates">
                                             <span>🗓️ <?php echo date('d/m/Y', strtotime($visita['data_visita'])); ?></span>
                                             <span>→</span>
@@ -189,38 +210,58 @@ try {
 
     <script>
         // Armazenar dados das visitas para rápido acesso
-        const visitasData = {
-            <?php
-            foreach ($visitas as $i => $visita) {
-                $dataInicio = new DateTime($visita['data_visita']);
-                $dataFim = new DateTime($visita['data_saida']);
-                $dias = $dataInicio->diff($dataFim)->days + 1;
-                $custoTotal = $visita['custo'] * $visita['quantidade_aluno'] * $dias;
-                echo $visita['id_agendamento'] . ': ' . json_encode([
-                    'ponto_nome' => $visita['ponto_nome'],
-                    'local' => $visita['local'],
-                    'descricao' => $visita['descricao'],
-                    'data_visita' => date('d/m/Y', strtotime($visita['data_visita'])),
-                    'data_saida' => date('d/m/Y', strtotime($visita['data_saida'])),
-                    'dias' => $dias,
-                    'quantidade_aluno' => $visita['quantidade_aluno'],
-                    'custo_unitario' => number_format($visita['custo'], 2, ',', '.'),
-                    'custo_total' => number_format($custoTotal, 2, ',', '.')
-                ]);
-                if ($i < count($visitas) - 1) echo ',';
-            }
-            ?>
-        };
+        const visitasData = <?php
+        $data_for_js = [];
+        foreach ($visitas as $visita) {
+            $dataInicio = new DateTime($visita['data_visita']);
+            $dataFim = new DateTime($visita['data_saida']);
+            $dias = $dataInicio->diff($dataFim)->days + 1;
+            $custoTotal = $visita['custo'] * $visita['quantidade_aluno'] * $dias;
+            
+            $data_for_js[$visita['id_agendamento']] = [
+                'ponto_nome' => $visita['ponto_nome'],
+                'local' => $visita['local'],
+                'descricao' => $visita['descricao'],
+                'data_visita' => date('d/m/Y', strtotime($visita['data_visita'])),
+                'data_saida' => date('d/m/Y', strtotime($visita['data_saida'])),
+                'dias' => $dias,
+                'quantidade_aluno' => $visita['quantidade_aluno'],
+                'custo_unitario' => number_format($visita['custo'], 2, ',', '.'),
+                'custo_total' => number_format($custoTotal, 2, ',', '.'),
+                'status' => isset($visita['status']) ? $visita['status'] : 'pendente',
+                'motivo_rejeicao' => isset($visita['motivo_rejeicao']) ? $visita['motivo_rejeicao'] : ''
+            ];
+        }
+        echo json_encode($data_for_js);
+        ?>;
 
         function verDetalhes(id) {
             const visita = visitasData[id];
             if (!visita) return;
+
+            let statusHtml = '';
+            if (visita.status === 'aprovado') {
+                statusHtml = '<span style="background: #d4edda; color: #155724; padding: 0.5rem 1rem; border-radius: 8px; font-weight: bold; font-size: 1.1rem;">✅ Aprovado</span>';
+            } else if (visita.status === 'rejeitado') {
+                statusHtml = '<div><span style="background: #f8d7da; color: #721c24; padding: 0.5rem 1rem; border-radius: 8px; font-weight: bold; font-size: 1.1rem;">❌ Rejeitado</span>';
+                if (visita.motivo_rejeicao) {
+                    statusHtml += '<p style="margin: 0.5rem 0 0 0; color: #666; font-style: italic;"><strong>Motivo:</strong> ' + visita.motivo_rejeicao + '</p>';
+                }
+                statusHtml += '</div>';
+            } else {
+                statusHtml = '<span style="background: #fff3cd; color: #856404; padding: 0.5rem 1rem; border-radius: 8px; font-weight: bold; font-size: 1.1rem;">⏳ Pendente</span>';
+            }
 
             const html = `
                 <div style="display: grid; gap: 1rem;">
                     <div style="border-bottom: 2px solid var(--light); padding-bottom: 1rem;">
                         <h3 style="margin: 0 0 0.5rem 0; color: var(--primary);">${visita.ponto_nome}</h3>
                         <p style="margin: 0; color: #666;">📍 ${visita.local}</p>
+                    </div>
+
+                    <div>
+                        <label style="font-weight: bold; color: var(--primary);">Status da Visita</label>
+                        <div style="margin-top: 0.5rem;">${statusHtml}</div>
                     </div>
 
                     <div>

@@ -19,7 +19,7 @@ try {
         SELECT a.*, pt.nome as ponto_nome, pt.local, pt.descricao, pt.custo
         FROM agendamento a
         JOIN ponto_turistico pt ON a.id_ponto_turistico = pt.id_ponto_turistico
-        WHERE a.id_instituicao = ? AND a.data_visita >= CURDATE()
+        WHERE a.id_instituicao = ?
         ORDER BY a.data_visita ASC
     ");
     $stmt->execute([$_SESSION['id_usuario']]);
@@ -50,13 +50,23 @@ try {
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $acao = $_POST['acao'] ?? '';
     $id_agendamento = $_POST['id_agendamento'] ?? '';
+    $motivo = $_POST['motivo'] ?? '';
     
-    if ($acao === 'autorizar') {
-        // Aqui você pode adicionar lógica de autorização
-        $sucesso = 'Visita autorizada com sucesso!';
-    } elseif ($acao === 'denunciar') {
-        // Aqui você pode adicionar lógica de denúncia
-        $sucesso = 'Denúncia registrada com sucesso!';
+    try {
+        if ($acao === 'autorizar') {
+            $stmt = $pdo->prepare("UPDATE agendamento SET status = 'aprovado' WHERE id_agendamento = ? AND id_instituicao = ?");
+            $stmt->execute([$id_agendamento, $_SESSION['id_usuario']]);
+            $sucesso = 'Visita aprovada com sucesso!';
+        } elseif ($acao === 'denunciar') {
+            $stmt = $pdo->prepare("UPDATE agendamento SET status = 'rejeitado', motivo_rejeicao = ? WHERE id_agendamento = ? AND id_instituicao = ?");
+            $stmt->execute([$motivo, $id_agendamento, $_SESSION['id_usuario']]);
+            $sucesso = 'Visita rejeitada com sucesso!';
+        }
+        
+        header('Location: dashboard-instituicao.php');
+        exit;
+    } catch (Exception $e) {
+        $erro = 'Erro ao processar ação: ' . $e->getMessage();
     }
 }
 ?>
@@ -163,8 +173,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                         <td><?php echo $visita['quantidade_aluno']; ?></td>
                                         <td><strong>R$ <?php echo number_format($custoTotal, 2, ',', '.'); ?></strong></td>
                                         <td>
-                                            <button class="btn btn-sm btn-success" onclick="autorizar(<?php echo $visita['id_agendamento']; ?>)">✓</button>
-                                            <button class="btn btn-sm btn-danger" onclick="denunciar(<?php echo $visita['id_agendamento']; ?>)">✗</button>
+                                            <?php if ($visita['status'] === 'pendente'): ?>
+                                                <button class="btn btn-sm btn-success" onclick="autorizar(<?php echo $visita['id_agendamento']; ?>)">✓</button>
+                                                <button class="btn btn-sm btn-danger" onclick="denunciar(<?php echo $visita['id_agendamento']; ?>)">✗</button>
+                                            <?php elseif ($visita['status'] === 'aprovado'): ?>
+                                                <span style="color: green; font-weight: bold;">✅ Aprovado</span>
+                                            <?php elseif ($visita['status'] === 'rejeitado'): ?>
+                                                <span style="color: red; font-weight: bold;">❌ Rejeitado</span>
+                                                <?php if (!empty($visita['motivo_rejeicao'])): ?>
+                                                    <br><small style="color: #666;">Motivo: <?php echo htmlspecialchars($visita['motivo_rejeicao']); ?></small>
+                                                <?php endif; ?>
+                                            <?php endif; ?>
                                         </td>
                                     </tr>
                                 <?php endforeach; ?>

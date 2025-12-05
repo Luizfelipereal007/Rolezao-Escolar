@@ -124,6 +124,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <footer class="footer">
         <p>&copy; 2025 Rolezão Escolar. Todos os direitos reservados.</p>
     </footer>
+
+    <script src="/Rolezao-Escolar/public/js/main.js"></script>
+    <script>
+        const campoCnpj = document.getElementById('cnpj');
+        campoCnpj.addEventListener('input', () => {
+            campoCnpj.value = mascaraCNPJ(campoCnpj.value);
+        });
+    </script>
+
 </body>
 
 </html>
